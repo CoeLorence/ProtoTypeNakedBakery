@@ -1,0 +1,224 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Naked Bakery | Fresh baked bread in Quezon City</title>
+<meta name="description" content="Order freshly baked artisanal bread from Naked Bakery. Quezon City pick-up made easy.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Sans:wght@400;500&family=Fraunces:opsz,wght@9..144,400&display=swap" rel="stylesheet">
+<style>
+:root{--cream:#F6EFE4;--dough:#EBDDC8;--wine:#6B1E2E;--gold:#E7B27A;--ink:#2A211D;--mut:#6B5B52;--line:#D9C9AE;--serif:'Fraunces',serif;--mono:'DM Mono',monospace}
+*{box-sizing:border-box}
+body{margin:0;background:var(--cream);color:var(--ink);font:16px/1.5 'DM Sans',sans-serif}
+a{color:inherit;text-decoration:none}button{font:inherit;cursor:pointer;color:inherit}
+img{max-width:100%}
+.mono{font-family:var(--mono);letter-spacing:2px;font-size:12px;text-transform:uppercase}
+.btn{display:inline-block;border:0;border-radius:999px;padding:14px 24px;background:var(--wine);color:var(--cream);font-size:15px}
+.btn.dark{background:var(--ink)}.btn.sm{padding:10px 18px;font-size:14px}
+.btn:hover{opacity:.88}
+:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
+.top{background:var(--wine);color:var(--cream);text-align:center;padding:9px 16px;font-size:14px}
+header{height:72px;padding:0 40px;display:flex;align-items:center;justify-content:space-between;gap:16px;border-bottom:1px solid var(--line)}
+.logo{font-family:var(--serif);font-size:26px}
+nav{display:flex;gap:30px;font-size:15px}
+.bagbtn{border:1px solid var(--ink);background:none;border-radius:999px;padding:9px 16px;font:500 13px var(--mono)}
+.hero{display:flex;height:min(860px,calc(100vh - 110px));min-height:640px}
+.stage{flex:1;position:relative;background:var(--ink);overflow:hidden;min-width:0}
+.stage::before{content:"";position:absolute;inset:0;background:linear-gradient(90deg,rgba(246,239,228,.12) 1px,transparent 1px) 0 0/33.333% 100%}
+.floor{position:absolute;left:0;right:0;top:84%;border-top:1px solid rgba(246,239,228,.2)}
+.cm{position:absolute;width:18px;height:18px;border:0 solid var(--gold)}
+.cm.a{left:24px;top:24px;border-width:1px 0 0 1px}.cm.b{right:24px;top:24px;border-width:1px 1px 0 0}
+.cm.c{left:24px;bottom:24px;border-width:0 0 1px 1px}.cm.d{right:24px;bottom:24px;border-width:0 1px 1px 0}
+.tag{position:absolute;left:56px;top:52px;color:#CDBFAE}
+.badge{position:absolute;right:56px;top:46px;border:1px solid rgba(246,239,228,.3);padding:10px 14px;color:var(--cream);line-height:1.7}
+h1{position:absolute;left:56px;top:104px;margin:0;width:min(420px,46%);font:400 clamp(38px,4.4vw,62px)/1.05 var(--serif);color:var(--cream)}
+.scene{position:absolute;inset:0;transition:transform .9s cubic-bezier(.16,1,.3,1),opacity .3s}
+.scene.out{opacity:0}
+.b{position:absolute;width:38%}
+.b0{left:9%;top:44%}.b1{left:53%;top:38%}
+.b img{display:block;width:100%;filter:drop-shadow(0 26px 22px rgba(0,0,0,.5))}
+.pin{position:absolute;left:50%;top:42%;width:30px;height:30px;padding:0;transform:translate(-50%,-50%);border:1px solid var(--cream);background:var(--cream);color:var(--ink);font:500 13px var(--mono);transition:background .15s,color .15s}
+.pin:hover,.pin.hot,.pin.on{background:var(--wine);color:var(--cream)}
+.zoomed .pin{transform:translate(-50%,-50%) scale(.5)}
+.ctl{position:absolute;left:56px;bottom:52px;display:flex;align-items:center;gap:12px}
+.ar{width:44px;height:44px;border:1px solid rgba(246,239,228,.4);background:none;color:var(--cream);font-size:18px}
+.ticks{display:flex;gap:8px;margin-left:8px}
+.tick{width:44px;height:18px;border:0;background:none;padding:0;position:relative}
+.tick::after{content:"";position:absolute;left:0;right:0;top:8px;height:3px;background:rgba(246,239,228,.25)}
+.tick.on::after{background:var(--gold)}
+.hint{position:absolute;right:56px;bottom:58px;color:#CDBFAE}
+.panel{width:500px;padding:36px 40px;border-left:1px solid var(--line);display:flex;flex-direction:column;overflow:auto}
+.panel h2{font:400 34px/1.15 var(--serif);margin:8px 0 16px}
+.row{display:flex;align-items:center;gap:14px;padding:16px;margin:0 -16px;border-bottom:1px solid var(--line);transition:background .15s}
+.row.hot,.row.on{background:var(--dough)}
+.num{width:30px;height:30px;flex:none;display:flex;align-items:center;justify-content:center;background:var(--ink);color:var(--cream);font:500 13px var(--mono)}
+.row.hot .num,.row.on .num{background:var(--wine)}
+.thumb{width:64px;height:64px;flex:none;border-radius:12px;background:var(--dough);object-fit:contain;padding:4px}
+.row .t{flex:1;min-width:0}.row .n{font:400 20px var(--serif)}.row .p{font:400 13px var(--mono);color:var(--mut)}
+.bundle{margin-top:auto;background:var(--dough);border-radius:16px;padding:20px}
+.bundle .sum{display:flex;justify-content:space-between;align-items:baseline;margin:8px 0 14px}
+.bundle .sum b{font:400 28px var(--serif)}
+.bundle .btn{width:100%;text-align:center}
+section.w{max-width:1200px;margin:0 auto;padding:80px 24px 0}
+section.w h2{font:400 40px var(--serif);margin:0 0 28px}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:24px}
+.card{background:var(--dough);border-radius:20px;padding:20px}
+.card img{width:100%;height:200px;object-fit:contain}
+.card .n{font:400 22px var(--serif);margin-top:10px}.card .p{color:var(--mut);margin:2px 0 14px}
+.visit{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:32px}
+.visit h3{font:400 24px var(--serif);margin:0 0 8px}.visit p{margin:0;color:var(--mut)}
+footer{background:var(--ink);color:var(--cream);margin-top:80px;padding:40px 24px;text-align:center;font-size:14px}
+footer .logo{display:block;margin-bottom:8px}
+dialog{border:1px solid var(--line);border-radius:20px;background:var(--cream);color:var(--ink);padding:28px;width:min(480px,92vw)}
+dialog::backdrop{background:rgba(42,33,29,.6)}
+dialog h2{font:400 30px var(--serif);margin:0 0 12px}
+.li{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:10px 0;border-bottom:1px solid var(--line)}
+.q button{width:30px;height:30px;border:1px solid var(--line);background:none;border-radius:50%}
+.q span{display:inline-block;min-width:24px;text-align:center}
+.tot{display:flex;justify-content:space-between;font:400 24px var(--serif);margin:16px 0}
+.acts{display:flex;gap:10px;flex-wrap:wrap}
+@media (max-width:900px){
+ header{padding:0 20px}nav{display:none}
+ .hero{flex-direction:column;height:auto;min-height:0}
+ .stage{flex:none;height:600px}.panel{width:100%;padding:28px 20px}
+ .tag{left:20px;top:44px}.badge{display:none}h1{left:20px;top:80px;width:60%}
+ .b{width:48%}.b0{left:0;top:50%}.b1{left:50%;top:44%}
+ .ctl{left:20px;bottom:36px}.hint{display:none}.tick{width:26px}
+}
+@media (prefers-reduced-motion:reduce){.scene{transition:none}}
+</style>
+</head>
+<body>
+<div class="top">Give the gift of bread. Order bread and spreads for your loved ones this holiday season.</div>
+<header>
+<a class="logo" href="#">naked bakery</a>
+<nav><a href="#">Home</a><a href="#menu">Menu</a><a href="#visit">Visit</a><a href="#visit">Contact</a></nav>
+<button class="bagbtn" id="openBag" aria-label="Open your bag">BAG · <span id="count">0</span></button>
+</header>
+
+<main>
+<section class="hero" aria-label="Shoppable bread spreads">
+<div class="stage" id="stage">
+<div class="floor"></div><i class="cm a"></i><i class="cm b"></i><i class="cm c"></i><i class="cm d"></i>
+<div class="tag mono">Naked Bakery / Fresh baked daily</div>
+<div class="badge mono" id="badge"></div>
+<h1>Bread, styled for the table.</h1>
+<div class="scene" id="scene"></div>
+<div class="ctl">
+<button class="ar" id="prev" aria-label="Previous spread">←</button>
+<button class="ar" id="next" aria-label="Next spread">→</button>
+<div class="ticks" id="ticks"></div>
+</div>
+<div class="hint mono">Tap a pin to zoom in</div>
+</div>
+<aside class="panel">
+<div class="mono" style="color:var(--wine)">In this spread</div>
+<h2 id="sname"></h2>
+<div id="rows"></div>
+<div class="bundle">
+<div class="mono" style="color:var(--mut)">Complete the spread</div>
+<div class="sum"><span style="color:var(--mut)">All pieces</span><b id="btotal"></b></div>
+<button class="btn" id="addAll">Add all to bag</button>
+</div>
+</aside>
+</section>
+
+<section class="w" id="menu"><h2>The full menu</h2><div class="grid" id="grid"></div></section>
+
+<section class="w" id="visit"><div class="visit">
+<div><h3>Location</h3><p>Brgy. Ugong Norte<br>Quezon City, Metro Manila</p></div>
+<div><h3>Hours</h3><p>Monday to Saturday, 8 am to 5 pm<br>Sunday closed</p></div>
+<div><h3>Contact</h3><p><a href="mailto:hello.nakedbakery@gmail.com">hello.nakedbakery@gmail.com</a><br>Instagram @nkd.bakery</p></div>
+</div></section>
+</main>
+
+<footer><span class="logo">naked bakery</span>© 2026 Naked Bakery</footer>
+
+<dialog id="bag"><h2>Your bag</h2><div id="bagItems"></div><div class="tot"><span>Total</span><span id="bagTotal"></span></div>
+<div class="acts"><a class="btn" id="mail" href="#">Send order by email</a><button class="btn dark" id="copy">Copy order</button><button class="btn dark" id="close">Close</button></div></dialog>
+
+<script>
+/* EDIT HERE: names, prices (placeholders) and images */
+const ITEMS={
+ croissant:{n:"Croissant",img:"images/bread2.png",p:120},
+ rolls:{n:"Cinnamon Rolls",img:"images/bread6.png",p:180},
+ country:{n:"Country Loaf",img:"images/bread1.png",p:250},
+ boule:{n:"Sourdough Boule",img:"images/bread3.png",p:280},
+ sandwich:{n:"Grilled Sandwich",img:"images/bread4.png",p:220},
+ danish:{n:"Jam Danish",img:"images/bread5.png",p:130}
+};
+const SPREADS=[
+ {name:"The Morning Spread",items:["croissant","rolls"],o:[[28,64],[72,58]]},
+ {name:"The Loaf Spread",items:["country","boule"],o:[[28,64],[72,58]]},
+ {name:"The Lunch Spread",items:["sandwich","danish"],o:[[28,64],[72,58]]}
+];
+const $=s=>document.querySelector(s);
+const peso=n=>"₱"+n.toLocaleString("en-PH",{minimumFractionDigits:2});
+const reduce=matchMedia("(prefers-reduced-motion:reduce)").matches;
+let cur=0,zoom=null,bag={},timer;
+const scene=$("#scene");
+
+function draw(){
+ const s=SPREADS[cur];
+ scene.classList.remove("zoomed");scene.style.transform="";zoom=null;
+ scene.innerHTML=s.items.map((id,i)=>`<div class="b b${i}"><img src="${ITEMS[id].img}" alt="${ITEMS[id].n}"><button class="pin" data-i="${i}" aria-label="Zoom in on ${ITEMS[id].n}">${i+1}</button></div>`).join("");
+ $("#badge").innerHTML=`Spread 0${cur+1} / 0${SPREADS.length}<br>${s.name}`;
+ $("#sname").textContent=s.name;
+ $("#rows").innerHTML=s.items.map((id,i)=>`<div class="row" data-i="${i}"><span class="num">${i+1}</span><img class="thumb" src="${ITEMS[id].img}" alt=""><div class="t"><div class="n">${ITEMS[id].n}</div><div class="p">${peso(ITEMS[id].p)}</div></div><button class="btn dark sm" data-add="${id}">Add</button></div>`).join("");
+ $("#btotal").textContent=peso(s.items.reduce((a,id)=>a+ITEMS[id].p,0));
+ $("#ticks").innerHTML=SPREADS.map((x,i)=>`<button class="tick${i===cur?" on":""}" data-go="${i}" aria-label="Spread ${i+1}"></button>`).join("");
+}
+function go(i){
+ cur=(i+SPREADS.length)%SPREADS.length;
+ if(reduce){draw();return}
+ scene.classList.add("out");setTimeout(()=>{draw();scene.classList.remove("out")},280);
+}
+function toggleZoom(i){
+ const pins=[...scene.querySelectorAll(".pin")],rows=[...document.querySelectorAll(".row")];
+ pins.forEach(p=>p.classList.remove("on"));rows.forEach(r=>r.classList.remove("on"));
+ if(zoom===i){zoom=null;scene.classList.remove("zoomed");scene.style.transform="";return}
+ zoom=i;const [x,y]=SPREADS[cur].o[i];
+ scene.style.transformOrigin=`${x}% ${y}%`;scene.style.transform="scale(2.1)";scene.classList.add("zoomed");
+ pins[i].classList.add("on");rows[i].classList.add("on");
+}
+function hot(i,on){
+ const p=scene.querySelectorAll(".pin")[i],r=document.querySelectorAll(".row")[i];
+ if(p)p.classList.toggle("hot",on);if(r)r.classList.toggle("hot",on);
+}
+function add(ids){ids.forEach(id=>bag[id]=(bag[id]||0)+1);renderBag()}
+function renderBag(){
+ const ids=Object.keys(bag).filter(k=>bag[k]>0);
+ $("#count").textContent=ids.reduce((a,k)=>a+bag[k],0);
+ const total=ids.reduce((a,k)=>a+bag[k]*ITEMS[k].p,0);
+ $("#bagItems").innerHTML=ids.length?ids.map(k=>`<div class="li"><span>${ITEMS[k].n}<br><small>${peso(ITEMS[k].p)}</small></span><span class="q"><button data-q="${k}:-1" aria-label="Remove one">−</button><span>${bag[k]}</span><button data-q="${k}:1" aria-label="Add one">+</button></span></div>`).join(""):"<p>Your bag is empty. Add something fresh.</p>";
+ $("#bagTotal").textContent=peso(total);
+ const txt="Hi Naked Bakery, I would like to order:\n"+ids.map(k=>`${bag[k]} x ${ITEMS[k].n} - ${peso(bag[k]*ITEMS[k].p)}`).join("\n")+"\nTotal: "+peso(total);
+ $("#mail").href="mailto:hello.nakedbakery@gmail.com?subject="+encodeURIComponent("Order")+"&body="+encodeURIComponent(txt);
+ $("#copy").onclick=()=>{navigator.clipboard&&navigator.clipboard.writeText(txt);$("#copy").textContent="Copied";setTimeout(()=>$("#copy").textContent="Copy order",1500)};
+}
+function play(){clearInterval(timer);if(!reduce)timer=setInterval(()=>{if(zoom===null)go(cur+1)},7000)}
+
+document.addEventListener("click",e=>{
+ const t=e.target.closest("button,.row");if(!t)return;
+ if(t.classList.contains("pin")){toggleZoom(+t.dataset.i);play()}
+ else if(t.dataset.add){add([t.dataset.add])}
+ else if(t.dataset.go){go(+t.dataset.go);play()}
+ else if(t.dataset.q){const[k,d]=t.dataset.q.split(":");bag[k]=Math.max(0,(bag[k]||0)+ +d);renderBag()}
+ else if(t.classList.contains("row")&&!e.target.closest("button")){toggleZoom(+t.dataset.i);play()}
+});
+$("#prev").onclick=()=>{go(cur-1);play()};
+$("#next").onclick=()=>{go(cur+1);play()};
+$("#addAll").onclick=()=>add(SPREADS[cur].items);
+$("#openBag").onclick=()=>{renderBag();$("#bag").showModal()};
+$("#close").onclick=()=>$("#bag").close();
+document.addEventListener("keydown",e=>{if(e.key==="Escape"&&zoom!==null)toggleZoom(zoom)});
+$("#stage").addEventListener("click",e=>{if(zoom!==null&&!e.target.closest(".pin,.ar,.tick"))toggleZoom(zoom)});
+document.addEventListener("mouseover",e=>{const t=e.target.closest(".pin,.row");if(t)hot(+t.dataset.i,true)});
+document.addEventListener("mouseout",e=>{const t=e.target.closest(".pin,.row");if(t)hot(+t.dataset.i,false)});
+
+$("#grid").innerHTML=Object.keys(ITEMS).map(k=>`<div class="card"><img src="${ITEMS[k].img}" alt="${ITEMS[k].n}" loading="lazy"><div class="n">${ITEMS[k].n}</div><div class="p">${peso(ITEMS[k].p)}</div><button class="btn sm" data-add="${k}">Add to bag</button></div>`).join("");
+draw();renderBag();play();
+</script>
+</body>
+</html>
